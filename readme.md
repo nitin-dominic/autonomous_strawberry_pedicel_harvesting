@@ -1,7 +1,7 @@
 # Pedicel-Targeted Strawberry Harvesting via Behavioral Cloning
 
 <p align="center">
-  <img src="assets/teaser.png" alt="Pedicel-Targeted Strawberry Harvesting" width="800"/>
+  <img src="assets/PXL_20260819_182712361.jpg" alt="Pedicel-Targeted Strawberry Harvesting" width="800"/>
 </p>
 
 <p align="center">
