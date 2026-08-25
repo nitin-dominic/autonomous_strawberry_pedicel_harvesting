@@ -29,11 +29,11 @@
 This repository contains the full pipeline for autonomous strawberry pedicel harvesting using behavioral cloning on a low-cost robotic arm. The system learns to grasp the strawberry pedicel (1.4–2.4 mm diameter) from human teleoperation demonstrations, bypassing the need for explicit computer vision detection or motion planning.
 
 **Key features:**
-- End-to-end visuomotor policy from wrist-camera input to joint-space actions
-- ACT (Action Chunking with Transformers) policy with ResNet-50 visual backbone
-- Trained on 85+ human teleoperation demonstrations
-- Deployed autonomously on Jetson Orin AGX at 15 Hz — no cloud compute
-- Open-access dataset on HuggingFace Hub
+- End-to-end visuomotor policy from wrist-camera input to joint-space actions.
+- ACT (Action Chunking with Transformers) policy with ResNet-50 visual backbone.
+- Trained on 130+ human teleoperation demonstrations.
+- Deployed autonomously on Jetson Orin AGX, no cloud compute
+- [Open-access dataset on HuggingFace Hub](https://huggingface.co/datasets/nitindominicrai/strawberry_pedicel_grasp_teleoperation).
 
 ---
 
@@ -45,7 +45,7 @@ This repository contains the full pipeline for autonomous strawberry pedicel har
 | Edge compute | NVIDIA Jetson Orin AGX (64 GB) |
 | Camera | USB wrist-mounted camera (640×480, 30 fps) |
 | Training GPU | NVIDIA B200 (HiPerGator HPC) |
-| OS | Ubuntu 20.04, JetPack 5.x |
+| OS | Ubuntu 20.04, JetPack 5 (and above) |
 | CUDA | 11.4 (Jetson custom build) |
 
 ---
