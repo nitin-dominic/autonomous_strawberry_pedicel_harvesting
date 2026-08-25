@@ -5,17 +5,15 @@
 </p>
 
 <p align="center">
-  <a href="https://huggingface.co/datasets/nitindominicrai/strawberry_harvest_v5_20260814_150933">
+  <a href="https://huggingface.co/datasets/nitindominicrai/strawberry_pedicel_grasp_teleoperation">
     <img src="https://img.shields.io/badge/🤗%20Dataset-HuggingFace-orange" alt="Dataset"/>
   </a>
-  <a href="https://huggingface.co/nitindominicrai">
-    <img src="https://img.shields.io/badge/🤗%20Models-HuggingFace-blue" alt="Models"/>
+  <a href="https://huggingface.co/nitindominicrai/act_strawberry_pedicel">
+    <img src="https://img.shields.io/badge/🤗%20Model-HuggingFace-blue" alt="Model"/>
   </a>
-  <a href="https://arxiv.org/abs/XXXX.XXXXX">
-    <img src="https://img.shields.io/badge/Paper-IROS%202026-green" alt="Paper"/>
-  </a>
+  <img src="https://img.shields.io/badge/Paper-IROS%20Agribotics%202026-green" alt="Paper"/>
   <img src="https://img.shields.io/badge/Python-3.12-blue" alt="Python"/>
-  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License"/>
+  <img src="https://img.shields.io/badge/License-Apache%202.0-yellow" alt="License"/>
 </p>
 
 > **Paper:** *Pedicel-Targeted Strawberry Harvesting via Imitation Learning on a Low-Cost Teleoperation Platform*  
@@ -29,11 +27,20 @@
 This repository contains the full pipeline for autonomous strawberry pedicel harvesting using behavioral cloning on a low-cost robotic arm. The system learns to grasp the strawberry pedicel (1.4–2.4 mm diameter) from human teleoperation demonstrations, bypassing the need for explicit computer vision detection or motion planning.
 
 **Key features:**
-- End-to-end visuomotor policy from wrist-camera input to joint-space actions.
-- ACT (Action Chunking with Transformers) policy with ResNet-50 visual backbone.
-- Trained on 130+ human teleoperation demonstrations.
-- Deployed autonomously on Jetson Orin AGX, no cloud compute
-- [Open-access dataset on HuggingFace Hub](https://huggingface.co/datasets/nitindominicrai/strawberry_pedicel_grasp_teleoperation).
+- End-to-end visuomotor policy from wrist-camera input to joint-space actions
+- ACT (Action Chunking with Transformers) with ResNet-50 visual backbone
+- Trained on 131 human teleoperation demonstrations (227,108 frames)
+- Deployed autonomously on Jetson Orin AGX at 15–20 Hz — no cloud compute
+- Open-access dataset and pre-trained model on HuggingFace
+
+---
+
+## Dataset and Pre-trained Model
+
+| Resource | Link | Details |
+|---|---|---|
+| 🤗 Dataset | [strawberry_pedicel_grasp_teleoperation](https://huggingface.co/datasets/nitindominicrai/strawberry_pedicel_grasp_teleoperation) | 131 episodes, 227K frames, 5.01 GB |
+| 🤗 Model | [act_strawberry_pedicel](https://huggingface.co/nitindominicrai/act_strawberry_pedicel) | ResNet-50, 100K steps, loss 0.091 |
 
 ---
 
@@ -42,22 +49,11 @@ This repository contains the full pipeline for autonomous strawberry pedicel har
 | Component | Specification |
 |---|---|
 | Robot arm | HiWonder SO-ARM101 (leader + follower) |
-| Edge compute | NVIDIA Jetson Orin AGX (64 GB) |
+| Edge compute | NVIDIA Jetson Orin AGX |
 | Camera | USB wrist-mounted camera (640×480, 30 fps) |
 | Training GPU | NVIDIA B200 (HiPerGator HPC) |
-| OS | Ubuntu 20.04, JetPack 5 (and above) |
-| CUDA | 11.4 (Jetson custom build) |
-
----
-
-## Software Requirements
-
-```
-Python        3.12
-PyTorch       2.1.0 (built from source for CUDA 11.4 on aarch64)
-LeRobot       HiWonder fork
-torchvision   custom build (no C++ extensions)
-```
+| OS | Ubuntu 20.04, JetPack 5.x |
+| CUDA | 11.4 |
 
 ---
 
@@ -74,38 +70,10 @@ autonomous_strawberry_pedicel_harvesting/
 ├── analysis/
 │   └── generate_all_figures.py  ← reproduce all paper figures
 ├── assets/
-│   ├── teaser.png
-│   └── pipeline.png
+│   └── teaser.png
 └── configs/
-    └── act_config.json          ← training hyperparameters
+    └── act_config.json
 ```
-
----
-
-## Dataset
-
-The demonstration dataset is publicly available on HuggingFace:
-
-| Version | Episodes | Frames | Resolution | Notes |
-|---|---|---|---|---|
-| [v5](https://huggingface.co/datasets/nitindominicrai/strawberry_harvest_v5_20260814_150933) | 31 | 38,320 | 640×480 | Clean baseline |
-| [v7](https://huggingface.co/datasets/nitindominicrai/strawberry_harvest_v7) | 131 | 227,108 | 480×640 | Extended dataset |
-
-Each episode contains synchronized:
-- Wrist camera frames (MP4, 30 fps)
-- 6-DOF joint positions (action + observation)
-- Timestamps and episode metadata
-
----
-
-## Trained Models
-
-Pre-trained model weights are hosted on HuggingFace:
-
-| Model | Backbone | Steps | Dataset | Download |
-|---|---|---|---|---|
-| ACT-ResNet50 | ResNet-50 | 100K | v5 (31 eps) | [🤗 Link](https://huggingface.co/nitindominicrai) |
-| ACT-ResNet50-FP16 | ResNet-50 (FP16) | 100K | v5 (31 eps) | [🤗 Link](https://huggingface.co/nitindominicrai) |
 
 ---
 
@@ -113,15 +81,23 @@ Pre-trained model weights are hosted on HuggingFace:
 
 See [INSTALL.md](INSTALL.md) for the full step-by-step setup guide.
 
-**Quick start (assumes LeRobot already installed):**
+**Quick start:**
 
 ```bash
 # Clone this repository
 git clone https://github.com/nitin-dominic/autonomous_strawberry_pedicel_harvesting
 cd autonomous_strawberry_pedicel_harvesting
 
-# Download trained model from HuggingFace
-hf download nitindominicrai/act_strawberry_model \
+# Create conda environment
+conda create -n lerobot python=3.12 -y
+conda activate lerobot
+
+# Install LeRobot
+git clone https://github.com/huggingface/lerobot.git
+cd lerobot && pip install -e ".[so101]" && cd ..
+
+# Download pre-trained model
+hf download nitindominicrai/act_strawberry_pedicel \
     --local-dir models/pretrained_model \
     --repo-type model
 ```
@@ -130,14 +106,14 @@ hf download nitindominicrai/act_strawberry_model \
 
 ## Usage
 
-### 1. Teleoperation (Data Collection)
+### 1. Teleoperation — Data Collection
 
 ```bash
 lerobot-record \
     --robot.type=so101_follower \
     --robot.port=/dev/ttyACM0 \
     --robot.id=my_awesome_follower_arm \
-    --robot.cameras="{ handeye: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, rotation: 90}}" \
+    --robot.cameras="{ handeye: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, rotation: 180}}" \
     --teleop.type=so101_leader \
     --teleop.port=/dev/ttyACM1 \
     --teleop.id=my_awesome_leader_arm \
@@ -148,11 +124,11 @@ lerobot-record \
     --dataset.push_to_hub=true
 ```
 
-### 2. Training (HiPerGator or any GPU)
+### 2. Training
 
 ```bash
 python -m lerobot.scripts.lerobot_train \
-    --dataset.repo_id=YOUR_HF_USERNAME/strawberry_harvest \
+    --dataset.repo_id=nitindominicrai/strawberry_pedicel_grasp_teleoperation \
     --policy.type=act \
     --output_dir=outputs/act_strawberry \
     --policy.device=cuda \
@@ -174,7 +150,7 @@ lerobot-rollout \
     --robot.type=so101_follower \
     --robot.port=/dev/ttyACM0 \
     --robot.id=my_awesome_follower_arm \
-    --robot.cameras="{ handeye: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, rotation: 90}}" \
+    --robot.cameras="{ handeye: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, rotation: 180}}" \
     --task="Pick the strawberry pedicel" \
     --duration=45
 ```
@@ -183,39 +159,24 @@ lerobot-rollout \
 
 ## Results
 
-| Condition | Trials | Success Rate |
-|---|---|---|
-| Fixed position | 10 | — |
-| Varied (±3 cm) | 10 | — |
-| With occlusion | 10 | — |
-| Full pot | 10 | — |
-
-*Results to be updated after physical trial completion.*
-
 **Deployment characteristics:**
 - Inference rate: 15–16 Hz (FP32) / 19–20 Hz (FP16)
 - Platform: Jetson Orin AGX, CUDA 11.4
 - No cloud compute dependency
+- Training loss: 2.84 → 0.091 over 100K steps
 
 ---
 
-## Reproducing Paper Figures
+## Reproduce Paper Figures
 
 ```bash
-# Install dependencies
 pip install scikit-learn matplotlib pandas numpy
-
-# Generate all figures
 python analysis/generate_all_figures.py
 ```
-
-Figures are saved to `outputs/figures/` as both PDF (for LaTeX) and PNG.
 
 ---
 
 ## Citation
-
-If you use this work, please cite:
 
 ```bibtex
 @inproceedings{rai2026pedicel,
@@ -232,13 +193,8 @@ If you use this work, please cite:
 
 ## License
 
-This project is released under the MIT License. See [LICENSE](LICENSE) for details.
+Apache 2.0 — see [LICENSE](LICENSE) for details.
 
 ---
 
-## Acknowledgements
-
-- [LeRobot](https://github.com/huggingface/lerobot) by HuggingFace
-- [HiWonder SO-ARM101](https://www.hiwonder.com)
-- University of Florida Agricultural and Biological Engineering
-- UF Research Computing (HiPerGator)
+*University of Florida | Agricultural and Biological Engineering | Precision Agriculture Robotics Lab*
