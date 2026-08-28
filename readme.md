@@ -17,7 +17,7 @@
 </p>
 
 > **Paper:** *Pedicel-Targeted Strawberry Harvesting via Imitation Learning on a Low-Cost Teleoperation Platform*  
-> Nitin Rai, Won Suk Lee — University of Florida  
+> Nitin Rai, Won Suk Lee, Hongyoung Jeon, Heping Zhu
 > IROS Agribotics Workshop 2026, Pittsburgh, Pennsylvania
 
 ---
@@ -27,11 +27,11 @@
 This repository contains the full pipeline for autonomous strawberry pedicel harvesting using behavioral cloning on a low-cost robotic arm. The system learns to grasp the strawberry pedicel (1.4–2.4 mm diameter) from human teleoperation demonstrations, bypassing the need for explicit computer vision detection or motion planning.
 
 **Key features:**
-- End-to-end visuomotor policy from wrist-camera input to joint-space actions
-- ACT (Action Chunking with Transformers) with ResNet-50 visual backbone
-- Trained on 131 human teleoperation demonstrations (227,108 frames)
-- Deployed autonomously on Jetson Orin AGX at 15–20 Hz — no cloud compute
-- Open-access dataset and pre-trained model on HuggingFace
+- End-to-end visuomotor policy from wrist-camera input to joint-space actions.
+- ACT (Action Chunking with Transformers) with ResNet-50 visual backbone.
+- Trained on 130 human teleoperation demonstrations (250k frames).
+- Deployed autonomously on Jetson Orin AGX at 15–20 Hz.
+- Open-access dataset and pre-trained model on HuggingFace.
 
 ---
 
@@ -72,7 +72,7 @@ autonomous_strawberry_pedicel_harvesting/
 ├── assets/
 │   └── teaser.png
 └── configs/
-    └── act_config.json
+    └── configuration_act.py
 ```
 
 ---
@@ -106,7 +106,7 @@ hf download nitindominicrai/act_strawberry_pedicel \
 
 ## Usage
 
-### 1. Teleoperation — Data Collection
+### 1. Teleoperation - Data Collection
 
 ```bash
 lerobot-record \
@@ -124,7 +124,7 @@ lerobot-record \
     --dataset.push_to_hub=true
 ```
 
-### 2. Training
+### 2. Training (B200 GPU × 1)
 
 ```bash
 python -m lerobot.scripts.lerobot_train \
@@ -140,7 +140,7 @@ python -m lerobot.scripts.lerobot_train \
     --policy.pretrained_backbone_weights=ResNet50_Weights.IMAGENET1K_V2
 ```
 
-### 3. Autonomous Inference (Jetson Orin)
+### 3. Autonomous Inference (Jetson AGX Orin)
 
 ```bash
 lerobot-rollout \
