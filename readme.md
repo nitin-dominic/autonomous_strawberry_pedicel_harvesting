@@ -39,8 +39,8 @@ This repository contains the full pipeline for autonomous strawberry pedicel har
 
 | Resource | Link | Details |
 |---|---|---|
-| 🤗 Dataset | [strawberry_pedicel_grasp_teleoperation](https://huggingface.co/datasets/nitindominicrai/strawberry_pedicel_grasp_teleoperation) | 131 episodes, 227K frames, 5.01 GB |
-| 🤗 Model | [act_strawberry_pedicel](https://huggingface.co/nitindominicrai/act_strawberry_pedicel) | ResNet-50, 100K steps, loss 0.091 |
+| 🤗 Dataset | [strawberry_pedicel_grasp_teleoperation](https://huggingface.co/datasets/nitindominicrai/strawberry_pedicel_grasp_teleoperation) | 130 episodes, ~250K frames, 5.01 GB |
+| 🤗 Model | [act_strawberry_pedicel](https://huggingface.co/nitindominicrai/act_strawberry_pedicel) | ResNet-50, 160K steps, loss 0.091 |
 
 ---
 
@@ -182,7 +182,7 @@ python analysis/generate_all_figures.py
 @inproceedings{rai2026pedicel,
   title     = {Pedicel-Targeted Strawberry Harvesting via Imitation Learning
                on a Low-Cost Teleoperation Platform},
-  author    = {Rai, Nitin and Lee, Won Suk},
+  author    = {Rai, Nitin and Lee, Won Suk, Jeon, Hongyoung and Zhu, Heping},
   booktitle = {Proc. IEEE/RSJ IROS Workshop on Agricultural Robotics (Agribotics)},
   year      = {2026},
   address   = {Pittsburgh, Pennsylvania}
