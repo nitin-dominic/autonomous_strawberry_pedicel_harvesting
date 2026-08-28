@@ -30,7 +30,7 @@ This repository contains the full pipeline for autonomous strawberry pedicel har
 - End-to-end visuomotor policy from wrist-camera input to joint-space actions.
 - ACT (Action Chunking with Transformers) with ResNet-50 visual backbone.
 - Trained on 130 human teleoperation demonstrations (250k frames).
-- Deployed autonomously on Jetson Orin AGX at 15–20 Hz.
+- Deployed autonomously on Jetson Orin AGX at 15-20 Hz.
 - Open-access dataset and pre-trained model on HuggingFace.
 
 ---
@@ -197,4 +197,4 @@ Apache 2.0 — see [LICENSE](LICENSE) for details.
 
 ---
 
-*University of Florida | Agricultural and Biological Engineering | Precision Agriculture Robotics Lab*
+*Precision Agriculture Lab | Department of Agricultural and Biological Engineering | University of Florida*
